@@ -1,0 +1,10 @@
+.venv
+*.db
+*.sqlite
+.vscode
+__pycache__
+*.pyc
+node_modules
+dist
+media
+uploads

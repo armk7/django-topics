@@ -1,6 +1,9 @@
 from django.db import models, migrations
 
 
+# This file was created manually
+
+
 class Migration(migrations.Migration):
 
     dependencies = [

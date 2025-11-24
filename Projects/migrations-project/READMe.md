@@ -76,3 +76,10 @@ To add new migrations:
 > python manage.py makemigrations <app_label>
 ```
 
+#### I manually created a migration file for the 'summary' field that i added to Product model of shop app.
+- After creating the migration file, do not run the makemigration command anymore. Just run migrate command.
+```
+> python manage.py migrate
+```
+- The dependencies attribute must point to the previous migration of that specific app
+- Operations attribute is simple enough to understand

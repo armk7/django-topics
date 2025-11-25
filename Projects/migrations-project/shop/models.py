@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 # Create your models here.
 
@@ -15,4 +16,4 @@ class Product(models.Model):
     summary = models.CharField("Summary", max_length=160, default="")
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, related_name="products", null=True)
     collection = models.ForeignKey(Collection, on_delete=models.SET_NULL, related_name='products', blank=True, null=True)
-    # uuid = models.UUIDField("UUID")
+    uuid = models.UUIDField("UUID", primary_key=True, default=uuid.uuid4, editable=False, null=False)

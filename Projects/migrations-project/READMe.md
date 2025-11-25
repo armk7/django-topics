@@ -111,7 +111,31 @@ We can use data migrations to update the existing records and move along with ou
 ```
 > python manage.py makemigrations --empty <appName>
 ```
-1. create an new uuid field for product
-2. populate the field using a data migration, then drop the id field and set the uuid field as pk
-(if there are relationships, those foreign keys need to be updated as well.)
-(product has category)
+
+
+#### Example scenario:
+I wanted to change my model to use uuid as primary key instead of default auto incrementing integer<br>
+These are the steps i took:
+1. Created an empty migration file and added uuid field and set the default to uuid.uuid4<br>
+(This is important, because database will not automatically generate uuid for you)<br>
+In this step, you must add uuid field to your model without adding primary_key=True to it<br>
+- Run migrations<br>
+If you check database there must be a uuid field with random value for existing product records.<br>
+2. Create another empty migration, remove the id field, and set the uuid field to primary_key=True.<br>
+In this step, you must add primary_key=True to uuid field of the product model<br>
+- Run migrations again.<br>
+Now if you check the database, you should see that id table is no longer there, and uuid field is the primary key.<br>
+
+- How to improve this process?<br>
+    - Add null=False to uuid after with the second step.<br>
+    - Split the first step into two smaller ones.<br> First add the uuid field as a non-primary-key field.<br>
+    Then make a data migration generating uuids for each row.<br>
+    This is to ensure every record has a uuid.<br>
+    In cases that migrations may depend on other tables.<br>
+    Overall, splitting them into two steps is MUCH SAFER.
+
+- Here is the summary of steps to take:
+1. Add UUID field (nullable=False, default=None)
+2. A data migration to fill UUIDs
+3. Alter UUID to null=False
+3. Set UUID as PK (and remove id)

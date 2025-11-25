@@ -83,3 +83,35 @@ To add new migrations:
 ```
 - The dependencies attribute must point to the previous migration of that specific app
 - Operations attribute is simple enough to understand
+Update: Added 0005 as well
+
+## Reversing migrations
+To reverse a migration run the migrate command and pass the number of the previous migration and app name.<br>
+for example, we're currently at migration 0006. to go back one migration:<br>
+```
+> python manage.py migrate shop 0005
+```
+
+To reverse migrations of an app:
+```
+> python manage.py migrate shop zero
+```
+
+#### NOTE: Some database migrations are irreversible. Attempting to reverse them will result to a IrreversibleError.
+
+
+## Data Migrations
+Migrations that can change the data as well as the database schema.<br>
+Django does not automatically create them.<br>
+NOTE: Very useful when you are attempting to change the schema of a table, but django blocks it because of existing records.
+<br>
+We can use data migrations to update the existing records and move along with our migration.<br>
+
+- To start, create an empty migration file:
+```
+> python manage.py makemigrations --empty <appName>
+```
+1. create an new uuid field for product
+2. populate the field using a data migration, then drop the id field and set the uuid field as pk
+(if there are relationships, those foreign keys need to be updated as well.)
+(product has category)
